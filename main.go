@@ -4,45 +4,32 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/url"
+	"os"
+
+	"go-maps-app/handler"
 )
 
-// handleMap handles the /map endpoint
-func handleMap(w http.ResponseWriter, r *http.Request) {
-	// Debug logging to confirm handler is being called
-	log.Printf("[DEBUG] Handler called! Method: %s, Path: %s, Query: %s\n",
-		r.Method, r.URL.Path, r.URL.RawQuery)
-
-	// Get the location query parameter
-	location := r.URL.Query().Get("location")
-
-	// Validate that location is not empty
-	if location == "" {
-		log.Printf("[DEBUG] Missing location parameter\n")
-		http.Error(w, "location parameter is required", http.StatusBadRequest)
-		return
+func main() {
+	// Read port from environment with fallback to 8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 	}
 
-	log.Printf("[DEBUG] Location parameter: %s\n", location)
+	addr := fmt.Sprintf(":%s", port)
 
-	// Build the Google Maps URL with URL-encoded location
-	mapsURL := "https://www.google.com/maps/search/?api=1&query=" + url.QueryEscape(location)
+	mux := http.NewServeMux()
+	// Serve static files from ./static (index.html will be served at "/")
+	fs := http.FileServer(http.Dir("./static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+	mux.Handle("/", fs)
 
-	log.Printf("[DEBUG] Redirecting to: %s\n", mapsURL)
+	// API route(s)
+	mux.HandleFunc("/map", handler.HandleMap)
+	mux.HandleFunc("/map/", handler.HandleMap)
 
-	// Redirect to Google Maps
-	http.Redirect(w, r, mapsURL, http.StatusFound)
-}
-
-func main() {
-	// Register the handler for BOTH /map and /map/ to avoid trailing slash issues
-	http.HandleFunc("/map", handleMap)
-	http.HandleFunc("/map/", handleMap)
-
-	// Start the server on port 8080
-	port := ":8080"
-	fmt.Printf("Server starting on http://localhost:8080\n")
-	fmt.Printf("Test with: http://localhost:8080/map?location=Bangalore\n")
-	fmt.Printf("or http://localhost:8080/map/?location=Bangalore\n")
-	log.Fatal(http.ListenAndServe(port, nil))
+	log.Printf("GO MAP REDIRECT API - starting on http://localhost:%s", port)
+	if err := http.ListenAndServe(addr, mux); err != nil {
+		log.Fatalf("server failed to start on %s: %v", addr, err)
+	}
 }

@@ -1,0 +1,52 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, build outputs
+*.test
+bin/
+build/
+dist/
+
+# Output of the go coverage tool
+*.out
+coverage.txt
+
+# Dependency directories (remove if you vendor deps)
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# IDE/editor files
+.vscode/
+.idea/
+*.iml
+*.suo
+*.user
+*.cache
+*.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# OS files
+desktop.ini
+
+# Optional: JetBrains IDEs
+.idea/
+*.iml
+
+# Optional: Git credentials/cache files
+.credentials
+.git-credentials
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
