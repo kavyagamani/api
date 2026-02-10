@@ -1,12 +1,11 @@
 {
   "functions": {
     "api/*.go": {
-      "runtime": "go1.20"
+      "runtime": "vercel-go@0.6.0"
     }
   },
   "routes": [
-    { "src": "/map", "dest": "/api/map" },
-    { "src": "/map/", "dest": "/api/map" },
+    { "src": "/map/?", "dest": "/api/map" },
     { "src": "/", "dest": "/api/map" }
   ]
 }
