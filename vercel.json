@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "api/*.go": {
+      "runtime": "go1.20"
+    }
+  },
+  "routes": [
+    { "src": "/map", "dest": "/api/map" },
+    { "src": "/map/", "dest": "/api/map" },
+    { "src": "/", "dest": "/api/map" }
+  ]
+}

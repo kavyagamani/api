@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "Go Maps App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        }
+      }
+    },
+    {
+      "name": "Map Redirect",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/map?location={{location}}",
+          "host": ["{{base_url}}"],
+          "path": ["map"],
+          "query": [
+            { "key": "location", "value": "{{location}}" }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "https://your-app.vercel.app" },
+    { "key": "location", "value": "Paris" }
+  ]
+}
